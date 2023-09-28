@@ -70,18 +70,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             _solutionTv.setText(_resultTv.getText().toString());
             return;
         }
-        if(buttonText.equals("C")){
-            //if( dataToCalculate.length()>0 ){
-                dataToCalculate=dataToCalculate.substring(0,dataToCalculate.length()-1);    //回退
-            //}
-           // return;
+        if(buttonText.equals("C") ){
+            if(dataToCalculate.length()==1){
+                dataToCalculate="";
+            }else if(dataToCalculate.length()>=2){
+                dataToCalculate= dataToCalculate.substring(0,dataToCalculate.length()-1);
+            }
         }else{
             dataToCalculate=dataToCalculate+ buttonText;    //将输入的字符追加进表达式
         }
 
         _solutionTv.setText(dataToCalculate);
-        String res=getResult(dataToCalculate);
-        if(res!="Error"){
+        String res=dataToCalculate==""?"0": getResult(dataToCalculate);
+        if(res!="Error" && res.charAt(0)!='o'){
             _resultTv.setText(res);
         }
     }
