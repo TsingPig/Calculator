@@ -2,16 +2,15 @@ package com.example.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ScriptableObject;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     TextView _resultTv, _solutionTv;
     MaterialButton _buttonC, _buttonLeftBracket, _buttonRightBracket;
@@ -59,32 +58,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        _solutionTv.setText(buttonText);
 
         String buttonText=button.getText().toString();
+        if(buttonText.equals("×"))buttonText="*";
         String dataToCalculate=_solutionTv.getText().toString();
-//        switch (buttonText){
-//            case "AC":
-//                _solutionTv.setText("");
-//                _resultTv.setText("0");
-//                return;
-//                break;
-//            case "=":
-//                break;
-//        }
+
         if(buttonText.equals("AC")){   //全部清空
             _solutionTv.setText("");
             _resultTv.setText("0");
             return;
         }
-        if(buttonText.equals("C") ){
-            if(dataToCalculate.length()==0){    //已经清空
-              //Toast
-                Toast.makeText(MainActivity.this, "hello", Toast.LENGTH_SHORT).show();
-            }else{
-                dataToCalculate=dataToCalculate.substring(0,dataToCalculate.length()-1);    //回退
-            }
-        }else{
-            dataToCalculate+=buttonText;    //将输入的字符追加进表达式
+        if(buttonText.equals("=")){
+            _solutionTv.setText(_resultTv.getText().toString());
+            return;
         }
+        if(buttonText.equals("C")){
+            //if( dataToCalculate.length()>0 ){
+                dataToCalculate=dataToCalculate.substring(0,dataToCalculate.length()-1);    //回退
+            //}
+           // return;
+        }else{
+            dataToCalculate=dataToCalculate+ buttonText;    //将输入的字符追加进表达式
+        }
+
         _solutionTv.setText(dataToCalculate);
+        String res=getResult(dataToCalculate);
+        if(res!="Error"){
+            _resultTv.setText(res);
+        }
     }
 
     //将按钮与XML布局Id关联，并将按钮的点击事件监听器设置为MainActivity
@@ -93,9 +92,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn.setOnClickListener(this);
     }
 
-//    String getResult(String data){
-//        // Customize the Toast
-//
-//
-//    }
+    String getResult(String dataToCalculate){
+       try {
+           Context context=Context.enter();
+           context.setOptimizationLevel(-1);
+           ScriptableObject scriptableObject= context.initStandardObjects();
+            //计算结果
+           String res= context.evaluateString(scriptableObject,dataToCalculate,"Javascript",1,null).toString();
+           if (res.endsWith(".0")){
+               res=res.replace(".0","");
+           }
+            return res;
+       }catch (Exception e){
+           e.printStackTrace();
+           return "Error";
+       }
+    }
 }

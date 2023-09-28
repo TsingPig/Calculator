@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Calculator</string>
     <string name="toast_warning_c">Already Cleared！</string>
+    <string name="toast_error">Wrong Expression！</string>
 </resources>
