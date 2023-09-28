@@ -2,9 +2,13 @@ package com.example.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -47,17 +51,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //实现View.OnClickListener接口
+
+    @Override
+    public void onClick(View view) {
+        MaterialButton button=(MaterialButton) view;
+//        _solutionTv.setText(buttonText);
+
+        String buttonText=button.getText().toString();
+        String dataToCalculate=_solutionTv.getText().toString();
+//        switch (buttonText){
+//            case "AC":
+//                _solutionTv.setText("");
+//                _resultTv.setText("0");
+//                return;
+//                break;
+//            case "=":
+//                break;
+//        }
+        if(buttonText.equals("AC")){   //全部清空
+            _solutionTv.setText("");
+            _resultTv.setText("0");
+            return;
+        }
+        if(buttonText.equals("C") ){
+            if(dataToCalculate.length()==0){    //已经清空
+              //Toast
+                Toast.makeText(MainActivity.this, "hello", Toast.LENGTH_SHORT).show();
+            }else{
+                dataToCalculate=dataToCalculate.substring(0,dataToCalculate.length()-1);    //回退
+            }
+        }else{
+            dataToCalculate+=buttonText;    //将输入的字符追加进表达式
+        }
+        _solutionTv.setText(dataToCalculate);
+    }
+
     //将按钮与XML布局Id关联，并将按钮的点击事件监听器设置为MainActivity
     void assignId(MaterialButton btn,int id){
         btn=findViewById(id);
         btn.setOnClickListener(this);
     }
 
-    //实现View.OnClickListener接口
-    @Override
-    public void onClick(View view) {
-        MaterialButton button=(MaterialButton) view;
-        String buttonText=button.getText().toString();
-        _solutionTv.setText(buttonText);
-    }
+//    String getResult(String data){
+//        // Customize the Toast
+//
+//
+//    }
 }

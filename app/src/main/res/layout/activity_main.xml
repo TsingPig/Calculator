@@ -7,28 +7,32 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/result_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/result_tv"
-        android:textSize="64dp"
+        android:layout_above="@id/buttons_layout"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="0"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
-        android:layout_above="@id/buttons_layout"
-        android:layout_margin="16dp"
-        android:text="0">
-    </TextView>
+        android:textSize="64dp"></TextView>
 
     <TextView
+        android:id="@+id/solution_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/solution_tv"
-        android:textSize="32dp"
+        android:layout_above="@id/result_tv"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="0"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
-        android:layout_above="@id/result_tv"
-        android:layout_margin="16dp"
-        android:text="0">
-    </TextView>
+        android:textSize="32dp"></TextView>
 
   <LinearLayout
       android:layout_width="match_parent"
